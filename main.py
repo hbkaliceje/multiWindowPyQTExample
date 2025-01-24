@@ -1,13 +1,12 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLCDNumber, QMenu, QAction, QDialog, QToolBox, QWidget, QLabel, \
-    QDesktopWidget, QToolBar, QPushButton, QMdiArea, QMdiSubWindow, QListWidget
-from PyQt5 import QtCore, uic
-from PyQt5.QtGui import *
 
 import pyqtgraph as pg
+from PyQt5 import QtCore, uic
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLCDNumber, QAction, QLabel, \
+    QPushButton, QMdiArea, QMdiSubWindow
 
 
-class mySubWindow(QMainWindow):  # Window that is produced from the toolbar
+class MySubWindow(QMainWindow):  # Window that is produced from the toolbar
 
     def __init__(self):
         super().__init__()
@@ -19,9 +18,9 @@ class mySubWindow(QMainWindow):  # Window that is produced from the toolbar
         print(self.btnClose)
 
         # Events from sub window
-        self.btnClose.clicked.connect(self.closeSubWindow)
+        self.btnClose.clicked.connect(self.close_sub_window)
 
-        self.setupWidgets()
+        self.setup_widgets()
         self.setWindowModality(
             QtCore.Qt.ApplicationModal)  # Sets the window to be a modal, so that you can't click back to the main application.
 
@@ -29,12 +28,12 @@ class mySubWindow(QMainWindow):  # Window that is produced from the toolbar
 
     # enddef
 
-    def closeSubWindow(self):
+    def close_sub_window(self):
         self.close()  # Closes the child window.
 
     # end def
 
-    def setupWidgets(self):
+    def setup_widgets(self):
         # Set the title of the window created.
         self.setWindowTitle("SubWindow")
 
@@ -51,7 +50,7 @@ class mySubWindow(QMainWindow):  # Window that is produced from the toolbar
 # endclass mywindow
 
 
-class mainWindow(QMainWindow):  # The main window that opens when the application starts
+class MainWindow(QMainWindow):  # The main window that opens when the application starts
 
     def __init__(self):
         super().__init__()
@@ -73,7 +72,7 @@ class mainWindow(QMainWindow):  # The main window that opens when the applicatio
         self.lcd.setDigitCount(2)
 
         # Events from main window
-        self.btnOk.clicked.connect(self.new_mdiWindow)
+        self.btnOk.clicked.connect(self.new_mdi_window)
 
     # enddef
 
@@ -89,12 +88,12 @@ class mainWindow(QMainWindow):  # The main window that opens when the applicatio
     def create_menus(self):
         # Menu Bar Settings
         action = self.findChild(QAction, "menu_WindowNew")
-        action.triggered.connect(self.openSubWindow)
+        action.triggered.connect(self.open_sub_window)
 
     # enddef
 
-    def openSubWindow(self):
-        self.newWin = mySubWindow()
+    def open_sub_window(self):
+        self.newWin = MySubWindow()
 
     # enddef
 
@@ -112,7 +111,7 @@ class mainWindow(QMainWindow):  # The main window that opens when the applicatio
 
     # enddef
 
-    def new_mdiWindow(self):
+    def new_mdi_window(self):
         new = QMdiSubWindow()
 
         # graph = pg
@@ -141,7 +140,7 @@ class mainWindow(QMainWindow):  # The main window that opens when the applicatio
 # main starts here
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = mainWindow()
+    window = MainWindow()
     window.show()
 
     sys.exit(app.exec_())
